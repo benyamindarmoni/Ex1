@@ -8,7 +8,7 @@ if [ $? -gt "0" ] ; then
         exit 7
 fi
 
-valgrind --leak-check=full --error-exitcode=1 ./$2 $@ &> /dev/null
+valgrind --leak-check=full --error-exitcode=1 ./$2 $@ &> outval.txt>&1
 
 if [ $? -eq "0" ] ; then
         memory=0
@@ -16,7 +16,7 @@ else
         memory=1
 fi
 
-valgrind --tool=helgrind --error-exitcode=1 ./$2 $@ &> /dev/null
+valgrind --tool=helgrind --error-exitcode=1 ./$2 $@ &>outhel.txt>&1
 if [ $? -eq "0" ] ; then
         race=0
 else

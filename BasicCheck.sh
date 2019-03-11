@@ -8,7 +8,7 @@ if [ "$compile" -gt "0" ]
 then
 echo "Compilation fail    Memory leaks fail       Tread race fail "
 echo    1                1                  1
-#exit 7
+exit 7
 
 
 
@@ -24,21 +24,21 @@ ishel=$?
 
 if [ "$isval" -eq 0 ] && [ "$ishel" -eq 0 ]
 then
-#  exit 0
+ exit 0
     echo "Compilation pass    Memory leaks pass       Tread race pass "
     
 elif [ "$isval" -eq 0 ] && [ "$ishel" -eq 1 ]
 then 
- # exit 1
+  exit 1
       echo "Compilation pass    Memory leaks pass       Tread race fail "
      elif [ "$isval" -eq 1 ] && [ "$ishel" -eq 0 ]
 then 
- # exit 2
+ exit 2
       echo "Compilation pass    Memory leaks fail       Tread race pass "
        
 else 
  echo "Compilation pass    Memory leaks fail       Tread race fail "
-       #exit 3
+       exit 3
 fi
 
   

@@ -22,18 +22,17 @@ ishel=$?
 
 if [ "$isval" -eq 0 ] && [ "$ishel" -eq 0 ]
 then
-  exit 0
     echo "Compilation pass    Memory leaks pass       Tread race pass "
-    
+     exit 0
 elif [ "$isval" -eq 0 ] && [ "$ishel" -eq 1 ]
 then 
- exit 1
       echo "Compilation pass    Memory leaks pass       Tread race fail "
+      exit 1
      elif [ "$isval" -eq 1 ] && [ "$ishel" -eq 0 ]
 then 
+ echo "Compilation pass    Memory leaks fail       Tread race pass "
  exit 2
-      echo "Compilation pass    Memory leaks fail       Tread race pass "
-       
+     
 else 
  echo "Compilation pass    Memory leaks fail       Tread race fail "
        exit 3

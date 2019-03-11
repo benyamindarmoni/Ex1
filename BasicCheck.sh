@@ -3,7 +3,6 @@
 cd $1
 make&>makeout.txt>&1
 compile=$?
-echo $compile
 if [ "$compile" -gt "0" ] 
 then
 echo "Compilation    Memory leaks        Thread race "

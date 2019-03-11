@@ -34,12 +34,12 @@ then
       exit 1
      elif [ "$isval" -eq 1 ] && [ "$ishel" -eq 0 ]
 then 
- echo "Compilation. Memory leaks.  Thread race pass "
+ echo "Compilation. Memory leaks.  Thread race  "
  echo "pass. fail. pass"
  exit 2
      
 else 
- echo "Compilation. Memory leaks.  Thread race pass "
+ echo "Compilation. Memory leaks.  Thread race  "
  echo "fail. fail. fail"
        exit 3
 fi

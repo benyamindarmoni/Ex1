@@ -1,33 +1,41 @@
 #!/bin/bash
 
 cd $1
-make&>makeout.txt>&1
-compile=$?
-if [ "$compile" -gt "0" ] 
-then
-echo "Compilation    Memory leaks        Thread race "
-echo    0                 0                  0
-else
-valgrind --leak-check=full -v ./$2&>outval.txt>&1
- grep -q "ERROR SUMMARY: 0 errors"  outval.txt
+make
 
-if [  $? -eq "0" ] ; then
-        memory=1
-else
-        memory=0
+if [ $? -gt "0" ] ; then
+       echo "Compilation fail  Memory leaks FAIL   Tread race FAIL"
+        exit 7
 fi
 
-valgrind --tool=helgrind ./$2&>outhel.txt>&1
-grep -q "ERROR SUMMARY: 0 errors" outhel.txt
+valgrind --leak-check=full --error-exitcode=1 ./$2 $@ &> /dev/null
+
 if [ $? -eq "0" ] ; then
-        race=1
+        memory=0
 else
-      race=0
+        memory=1
 fi
 
- echo "Compilation    Memory leaks        Thread race "
- echo      1             $memory             $race
- 
+valgrind --tool=helgrind --error-exitcode=1 ./$2 $@ &> /dev/null
+if [ $? -eq "0" ] ; then
+        race=0
+else
+        race=1
+fi
 
-  
+
+
+
+if [ $memory -eq "0"&&$race -eq "0" ] ; then
+        echo "Compilation PASS  Memory leaks PASS      thread race PASS"
+        exit 0
+elif [ $memory -eq "1"&&$race -eq "0" ] ; then
+        echo "Compilation PASS  Memory leaks FAIL       thread race PASS"
+       exit 2
+elif [ $memory -eq "0"&&$race -eq "1" ] ; then
+        echo "Compilation PASS  Memory leaks PASS       thread race FAIL"
+       exit 1
+else
+        echo "Compilation PASS  Memory leaks FAIL       thread race FAIL"
+        exit 3
 fi

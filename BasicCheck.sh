@@ -9,10 +9,8 @@ then
 echo "Compilation fail    Memory leaks fail       Tread race fail "
 echo    1                1                  1
 exit 7
+fi
 
-
-
-else
 valgrind --leak-check=full -v ./$2&>outval.txt>&1
  grep -q "ERROR SUMMARY: 0 errors"  outval.txt
 isval=$?
